@@ -1,6 +1,6 @@
 # [ML] 병원 폐업여부 예측
 
-:rocket: **library: pandas, seaborn, sklearn, imblearn(imbalaced-learn), shap**
+:rocket: **library: pandas, seaborn, sklearn, imblearn(imbalaced-learn)**
 
 ### 1. 프로젝트 개요
 ```
@@ -14,74 +14,53 @@
 ```
 - DACON 연습용 데이터(train: 301개, test: 127개)
 - 의료기관의 폐업여부가 포함된 2개년 재무정보와 병원 기본정보(지역/종류/병상수 외) 포함 데이터 
-- 데이터 전처리/분리 : 결측치 확인 , 중복 제거 후 train: validation = 8:2 로 나누어 학습 
+- 데이터 전처리/분리 : 결측치 확인 , 중복 제거 후 train: validation = 7:3 로 나누어 학습 
+- 특징 ① 데이터 개수가 적음 ② 타겟 데이터 불균형(약 9:1)
 ```
+
+### 3. 데이터 전처리
+
+#### 3-1. 결측치 보완 
 ```
-- 특징 : ① 데이터 개수가 적음 ② 타겟 데이터 불균형(
-
-### 3. 모델 학습
-* 목표: pre-trained model을 사용하여 모델 훈련 후, 하이퍼파라미터 튜닝을 통해 성능 향상
-* **ELECTRA model**
-   <center><img width = '700' height = '150' src ='https://user-images.githubusercontent.com/83687942/163327105-67d133c7-395b-4919-9d76-36fa17b1b9b7.jpg'></center>
-  
-  * Masked Language Model을 개선시킨 RTD(Replaced Token Detection)방식으로 학습하는 모델
-  * RTD : masking된 단어를 generator를 통해 다른 단어로 대체한 후 discriminator로 원본과 대조하여 학습하는 방식
-  
-* 학습모델 : [KoELECTRA](https://github.com/monologg/KoELECTRA/tree/master/finetune)
-   
-    |model|batch_size | train_steps| learning_rate | max_seq_len|
-    |-|-|-|-|-|
-    |base-v3|256|1.5M|2e-4|512|
-
-
-
-### 4. 하이퍼파라미터 튜닝
-
-|hyperparameters|&nbsp;base&nbsp; |&nbsp;best&nbsp;| reason|
-|:-:|:-:|:-:|-|
-|learning_rate|5e-5|5e-5|learning rate을 증가시키면 train loss가 줄어들지 않음
-|epochs|10|20| epoch 2배 조정시 성능이 크게 향상되었으나 그 이상은 투입 자원 대비 성능향상이 미미함
-|warmup_proportion|0.0|0.2|0.1씩 증가시킨 결과 0.2에서 가장 높은 성능향상
-|weight_decay|0.0|0.0|epoch 증가에 따라 weight decay를 함께 늘리면 성능이 향상되었으나 best는 아님
-|batch_size|32|32|batch size 증가시 out of memory 에러가 발생함
-|max_seq_len|120|120|학습데이터의 문장 평균 값을 고려하여 80으로 조정하였으나 성능이 하락함
-
-
-
-
-### 5. 학습 결과
-
-<center><img width = '400' height = '300' src = 'https://user-images.githubusercontent.com/83687942/163331560-62bbf38a-e58a-4a1f-8339-14938750726a.jpg'></center>
-<center><img width = '400'  height = '300' src ='https://user-images.githubusercontent.com/83687942/163331659-0f273aa6-fd48-4986-8733-8bbc785b1cde.jpg'></center>
-
-* validation loss 기준 (loss 증가 직전) epochs=2는 훈련량 부족으로 높은 성능을 보이지 않음
-* eopchs=16과 19의 f1 score 비교 결과 check point는 "epochs:19" 설정
-
-|- | base model | best hyperparameter tuned model|
-|:-:|:-:|:-:|
-|&nbsp;&nbsp;&nbsp;&nbsp;f1 score&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;0.8641035996&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|**0.87802585193**|
-|pearson correlation|&nbsp;&nbsp; | 0.93091781336|
-
-
-
-
-### 6. [FAST API](https://github.com/seyeonjungGit/team1_API) 구현
-
-<center><img width = '600' height = '400' src = 'https://user-images.githubusercontent.com/83687942/163333897-11740a11-5a0d-49b5-8504-d95452b7a3d0.jpg'></center>
-
-
-
-### 7. 과제 담당 역할
+- 결측치가 많이 포함된 데이터로 총 데이터 수가 적어 최대한 결측치를 보완하고자 함
+   - 병상수, 직원수 등은 병원 규모에 따른 각 feature의 평균값으로 대체
+   - 재무 데이터의 결측치는 SimpleImputer의 'median'을 사용해 보완
+   - 카테고리 데이터의 결측치는 SimplImputer의 'most_frequncy'를 통해 보완
 ```
-- 모델 조사 및 논문 리서치(SBERT)
-- 하이퍼파라미터 튜닝 
+#### 3-2. 가설설정
+
+```
+- 이익(매출총이익, 영업이익, 당기순이익)이 클수록 폐업할 가능성이 높을 것이다
+- ROE 또는 ROA가 높을수록 폐업할 가능성이 낮을 것이다 
+- 부채 비율(부채/총자산)이 높다면 폐업할 가능성이 높을 것이다 ...
+```
+
+#### 3-3. feature engineering
+
+```
+- 가설을 바탕으로 새로운 feature 생성
+   - 매출총이익률, ROE, ROA, 부채비율, 변화율 등 
+```
+ 
+### 4. 모델 학습
+```
+- 분류모델을 통한 모델 학습 - 성능이 높은 모델을 3개 선정 - ensemble(voting) 최종 결과 도출  
+- 데이터 불균형에 따라 oversampling 방법(SMOTE, ADASYN)을 추가적으로 적용한 결과 약간의 성능 향상을 보임
 ```
 
 
-
-### 8. 한계점 및 보완점
+### 5. 최종 결과 
+* 평가지표 : accuracy
+* base model 기준 약 0.014 성능 향상 
 ```
-- 하이퍼파라미터 튜닝의 자동화 필요
-- 추후 토큰화 방식의 다양화(형태소 임베딩 등)를 통한 모델의 성능 비교 
-- (개인) 오픈소스를 활용한 논문의 코드 구현 및 모듈화를 위한 역량 개발 필요
+- base model(빈도수가 높은 target 값으로만 예측) : 0.8730
+- (random forest + xgb clsssifier + gradientboosting classifier)에 votingclassifier를 사용한 결과 : 0.8888
+```
+
+### 6. 한계점 및 보완점
+```
+- 전처리 과정에 많은 시간을 투자하였으나 효과는 크기 않았다고 생각됨 
+- 해당 가설이 유효했는지(특성중요도 등)에 대한 검증과 하이퍼파라미터 튜닝, CV 방법 등을 적용한 결과 보완 필요
+- ROC curve 등을 활용하여 최적의 임계점을 찾고자 하였으나 곡선의 모양이 비정상적인 모습을 보이고
+  threshold값이 모델별로 극단의 값을 보이는 등의 문제가 나타남. 문제의 원인 파악과 함께 개선 방향에 대한 고민 필요 
 ```
