@@ -55,12 +55,12 @@
 * base model 기준 약 0.014 성능 향상 
 ```
 - base model(빈도수가 높은 target 값으로만 예측) : 0.8730
-- (random forest + xgb clsssifier + gradientboosting classifier)에 votingclassifier를 사용한 결과 : 0.8888
+- (randomforest + xgb clsssifier + gradientboosting classifier)에 voting classifier를 사용한 결과 : 0.8888
 ```
 
 ### 6. 한계점 및 보완점
 ```
-- 전처리 과정에 많은 시간을 투자하였으나 효과는 크기 않았다고 생각됨 
+- 전처리 과정에 많은 시간을 투자하였으나 효과는 크지 않았다고 생각됨 
 - 해당 가설이 유효했는지(특성중요도 등)에 대한 검증과 하이퍼파라미터 튜닝, CV 방법 등을 적용한 결과 보완 필요
 - ROC curve 등을 활용하여 최적의 임계점을 찾고자 하였으나 곡선의 모양이 비정상적인 모습을 보이고
   threshold값이 모델별로 극단의 값을 보이는 등의 문제가 나타남. 문제의 원인 파악과 함께 개선 방향에 대한 고민 필요 
