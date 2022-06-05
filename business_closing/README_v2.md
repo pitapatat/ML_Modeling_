@@ -25,17 +25,25 @@
 ----
 ### 3. 분석 과정
    + 데이터 전처리 : 결측치 대체
-      + 데이터의 값이 np.NaN인 경우 뿐만 아니라 0.0인 경우도 결측치로 간주함 
-      + 병상수, 직원수 데이터를 바탕으로 병원 종류(instkind)의 결측치(3개) 보완 
+      + **데이터의 값이 np.NaN인 경우 뿐만 아니라 0.0인 경우도 결측치로 간주함**
+      + <u>병원 종류(instkind)는 병상수 기준으로(30개 미만/이상, 100개 미만/이상) 분류되었음을 전제로 함</u>
+      + 병상수, 직원수, 수익 데이터를 바탕으로 병원 종류(instkind)의 결측치(3개) 보완 
       + 병원 종류(instkind)에 따른 그룹핑 후, 중앙값(median)을 사용하여 병상수(bedCount), 직원수(employee) 결측치 보완   
+            <img src = "https://user-images.githubusercontent.com/83687942/172049021-938dacab-520a-44f9-8746-8d268c254d3e.png" width="450" height="250" >
+            <img src = "https://user-images.githubusercontent.com/83687942/172049043-49780ebc-75b9-47e4-8664-17f77c799480.png" width="450" height="250" >  
+      + feature engineering : 가설 검증을 위한 feature 생성
+          <center><img src = "https://user-images.githubusercontent.com/83687942/172049509-488361ef-4904-4e02-8e12-1ed06f5a88a7.png" width="350" height="500"></center>
+      
+      + t-test, chi-sqire test를 통해 target(개/폐업) 그룹 간 유의미한 차이가 있는 feature 분석
+      + categorical features 인코딩 및 numerical features 정규화
 
-   + 데이터 분석 : 카테고리별/월별/주별 상/하위 인기동영상의 특징 분석 및 시각화
-
-   + tag 키워드 빈도 분석 : 카테고리별/월별 tag 키워드 빈도수 분석 및 시각화
-
-   + 호응도 지표 분석 : 인기동영상의 지표별 특징 및 조회수와 다른 변수 간 상관관계 분석
-
-   + 인기동영상 지표 개발 : 조회수 대비 (좋아요+싫어요)수, 구독자수 대비 조회수 외 관련 변수 가중치 부여
+   + 머신러닝 모델 학습 및 평가 
+      + 로지스틱회귀, SVM, 결정트리, 랜덤포레스트, SGD/KNN/GradientBoosting/XGBM/LGBM 분류기 파이프라인(+SMOTE) 구축
+      + 모델 학습 결과를 바탕으로 4개 모델(SVC, 랜덤포레스트, XGB, LGBM) 선택
+      + gridresearchCV를 통한 하이퍼파라미터 튜닝 및 모델 회적화
+      + voting classifier를 통한 최종 결과물 도출
+   
+   + 학습 모델에 따른 특성 중요도 분석 및 결과 해석
  
 ----
    
@@ -51,39 +59,17 @@
    
 ----
 ### 5. 분석 결과
-#### 5-1. 인기동영상 채널 특징 
+#### 5-1.  채널 특징 
 
 + entertainment > people & blogs 순으로 나타나며 pets & animals 채널의 꾸준한 상승세가 두드러짐 
 
-+ 월별 특이점 : 6,7월 sports 채널 상승세 두드러짐(카타르월드컵, euro2020, 도쿄올림픽 등 스포츠 시즌에 영향으로 추정) 
-<center><img width="1000" height= '300' alt="month-flow" src="https://user-images.githubusercontent.com/83687942/163302783-5a119f01-23c9-4c6b-8069-6cde4d8b4a70.png"></center>
-<center><img width="1000" height= '300' alt="month-cat" src="https://user-images.githubusercontent.com/83687942/163302876-ef211500-aafe-44ca-9d5d-99196b0e4fd3.png"></center>
-   
-+ 주별 특이점 : 주별 카테고리의 변동폭이 크나 구성비에는 큰 변화 없음. howto & style 채널이 상위권에 자주 랭크됨 
++ 
 
-<center><img width="1000" height= '300' alt="week-flow" src="https://user-images.githubusercontent.com/83687942/163304127-bbc312f6-bb14-484d-837d-21ab6898ce25.png"></center>
-<center><img width="1000" height= '300' alt="week-cat" src="https://user-images.githubusercontent.com/83687942/163304167-1f863741-fcc6-4fc9-b463-51fbb52a348f.png"></center>
+#### 5-2. 석 
++ 인기동영상의 특징 
 
-+ 월별 TOP10 채널 
-<center><img width="1000" height= '300' alt="month-top10" src="https://user-images.githubusercontent.com/83687942/163305727-8288615b-3b71-4096-b856-fa426cf76741.png"></center>
-
-+ 월별 tag 키워드 : "먹방", "몰카", "일상", "브이로그"는 매월 공통으로 높은 빈도로 등장하며 유행어(예: 브레이브걸스, 올림픽 등)가 tag로 주로 사용됨 
-<center><img width="1000" height= '300' alt="teg-4" src="https://user-images.githubusercontent.com/83687942/163306585-b47e6725-05fc-4383-80c5-7b71dd8d0e94.png"></center>
-
-+ 카테고리별 tag 키워드 : 카테고리별 유명 인플루언서(또는 운동선수/연예인)의 빈도가 높으며 "음식", "먹방" tag는 카테고리별 영향을 덜 받는 편임 
-<center><img width="1000" height= '300' alt="sports-tag" src="https://user-images.githubusercontent.com/83687942/163305901-308b9d49-bf3c-4b52-a3f8-73f9bac84d5e.png"></center>
-
-#### 5-2. 인기 호응도 지표 분석 
-+ 인기동영상의 특징 - 10-15분 길이의 영상/업로드 후 시간당 1만회 조회수 & 2일 내 인기동영상 진입 & 3일 내 유지
-
-+ 조회수와 높은 상관관계 지표 : 좋아요수, 싫어요수, 댓글수, 구독자수
-
-<center><img width="500" height= '400' alt="corr" src="https://user-images.githubusercontent.com/83687942/163309811-49066ee8-8e07-4199-840e-088930729664.png"></center>
-
-#### 5-3. 인기 호응도 지표 개발
-+ 조회수와 높은 상관관계를 보이는 지표들의 가중치 평균 및 가중치 조정값을 통해 인기 호응도 지표를 개발하고자 함
-
-+ 하지만 '조회수(또는 좋아요수)'의 상관관계/ols 검정 결과 유의미한 선형 상관관계는 나타나지 않음
+#### 5-3.  지표 개발
++ 조회수와 높은 
 
 ----
 ### 6. 한계점 및 보완점
