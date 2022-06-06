@@ -50,7 +50,8 @@
 
       + 모델 학습 결과를 바탕으로 4개 모델(SVC, RandomForest, XGB, LGBM) 선택
       + gridresearchCV를 통한 하이퍼파라미터 튜닝 및 모델 최적화
-          <img src = "https://user-images.githubusercontent.com/83687942/172112123-d955b4a6-a261-450f-a2b0-f69f143461cc.png" width="450" height="400">
+          <center><img src = "https://user-images.githubusercontent.com/83687942/172112123-d955b4a6-a261-450f-a2b0-f69f143461cc.png" width="500" height="400"></center>
+        
       + voting classifier를 통한 최종 결과물 도출
    
    + 학습 모델에 따른 특성 중요도 분석 및 결과 해석
