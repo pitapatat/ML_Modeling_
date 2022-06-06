@@ -52,7 +52,7 @@
       + gridresearchCV를 통한 하이퍼파라미터 튜닝 및 모델 최적화
           <center><img src = "https://user-images.githubusercontent.com/83687942/172112123-d955b4a6-a261-450f-a2b0-f69f143461cc.png" width="500" height="400"></center>
         
-      + voting classifier를 통한 최종 결과물 도출
+      + ~~voting classifier를 통한 최종 결과물 도출~~
    
    + 학습 모델에 따른 특성 중요도 분석 및 결과 해석
  
