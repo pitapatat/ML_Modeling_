@@ -23,9 +23,9 @@
 
 ----
 ### 3. 평가지표
-+ dacon 에서는 정확도(accuracy)를 기준으로 평가하였으나 타겟 데이터가 불균형(9:1) 하므로 적절하지 않다고 판단함
-    + validation/test data에 대해 모든 라벨을 최빈값(1)로 예측한 결과 >> **validation(정확도) = 0.9450, test(정확도) = 0.8730**
-+ 이에 accuracy 외 재현율, f1 score, AUC score 등을 활용하여 종합적으로 평가하고자 함 
++ DACON에서는 정확도(accuracy)를 기준으로 평가하였으나 타겟 데이터가 불균형(9:1) 하므로 적절하지 않다고 판단함
+    + validation/test data에 대해 모든 라벨을 최빈값(=1)로 예측한 결과 >> **validation(정확도) = 0.9450, test(정확도) = 0.8730**
++ 이에 정확도(accuracy) 외 재현율(recall), f1 score, AUC score 등을 활용하여 종합적으로 평가하고자 함 
 
 ----
 ### 4. 분석 과정
@@ -75,10 +75,16 @@
    + _매출액('revenue1'), 판매비와 관리비('sga1'), 급여('salary1'), 재고자산('inventoryAsset1/2'), 기타 비유동자산('OnonCAsset1/2'), 부채총계('debt1'), 비유동부채('NCLiabilities1'),매출총이익('tot_profit1'), 영업이익('ope_profit1'), 부채비율('debt_ratio1'), 대표자의 변경('ownerChange')_
 
 #### 5-2. 모델 간 성능 비교
-+ validation data 검증 결과의 정확도(accuracy) 비교 
-   +
-+ validation data 검증 결과의 AUC score 비교 
-   +  
++ validation data 검증 결과의 f1-score/정확도(accuracy)/AUC score 비교 
+ 
+   |모델|f1-score|accuracy|AUC score(base)|AUC score(최적화)|
+   |:--:|:--:|:--:|:--:|:--:|
+   |최빈값 예측|0.9718|0.9451|0.5| -|
+   |SVM|0.9405 |0.8901| 0.6698|0.6768|
+   |RandomForest|0.9660 | 0.9341|  0.8093|0.8605|
+   |LGBM|0.9714 | 0.9451| 0.6814|0.7093|
+   |XGB|0.9714 | 0.9451|0.6976|0.7547|
+   
 
 #### 5-3. 모델 간 특성중요도 비교 
 + 조회수와 높은 
