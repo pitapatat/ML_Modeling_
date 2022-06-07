@@ -24,7 +24,7 @@
 ----
 ### 3. 평가지표
 + DACON에서는 정확도(accuracy)를 기준으로 평가하였으나 타겟 데이터가 불균형(9:1) 하므로 적절하지 않다고 판단함
-    + validation/test data에 대해 모든 라벨을 최빈값(=1)로 예측한 결과 >> **validation(정확도) = 0.9450, test(정확도) = 0.8730**
+    + validation/test data에 대해 모든 라벨을 최빈값(=1)로 예측한 결과 >> **validation(정확도) = 0.9451, test(정확도) = 0.8730**
 + 이에 정확도(accuracy) 외 재현율(recall), f1 score, AUC score 등을 활용하여 종합적으로 평가하고자 함 
 
 ----
