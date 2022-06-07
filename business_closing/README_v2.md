@@ -48,8 +48,7 @@
          + ROC curve, AUC score를 사용하여 각 모델 별 최적의 threshold 적용
              <img src = "https://user-images.githubusercontent.com/83687942/172111798-a7178bfd-5f6c-4be2-923d-8a4212c0baf0.png" width="450" height="400">
 
-      + 모델 학습 결과를 바탕으로 4개 모델(SVC, RandomForest, XGB, LGBM) 선택
-      + gridresearchCV를 통한 하이퍼파라미터 튜닝 및 모델 최적화
+      + 모델 학습 결과를 바탕으로 5개 모델(SVC, RandomForest, XGB, LGBM, GB)에 대한 gridresearchCV를 통한 하이퍼파라미터 튜닝 및 모델 최적화
           <center><img src = "https://user-images.githubusercontent.com/83687942/172112123-d955b4a6-a261-450f-a2b0-f69f143461cc.png" width="500" height="400"></center>
         
       + ~~voting classifier를 통한 최종 결과물 도출~~
@@ -89,6 +88,7 @@
    |LGBM|0.9714 | 0.9451| 0.6814|0.7093|
    |XGB|0.9714 | 0.9451|0.6976|0.7547|
    
+   
 
 + test data 검증 결과 : 학습 모델 중에선 Gradient Boosting 모델의 성능이 높았으나 base모델과 큰 차이를 보이지 못함
 
@@ -101,12 +101,15 @@
    |Gradient Boosting|0.8730 / 0.8438|-|
    |LGBM |0.8571 / 0.8281|-|
    |XGB|0.8413 / 0.8125 |-|
-   |voting classifier| 0.8412 / 0.8281 |SVM + Random Forest + XGB + LGBM|
-   |voting classifier| 0.8413 / 0.8281  |Random Forest + LGBM + XGB|
-   |voting classifier| 0.8413 / 0.8438 | GBM + XGB + LGBM |
+   |voting classifier1| 0.8412 / 0.8281 |SVM + Random Forest + XGB + LGBM|
+   |voting classifier2| 0.8413 / 0.8281  |Random Forest + LGBM + XGB|
+   |voting classifier3| 0.8413 / 0.8438 | GBM + XGB + LGBM |
 
 
 #### 6-3. 모델 간 특성중요도 비교 
+        * 특성중요도: 트리기반 분류기에서 각 특성을 모든 트리에 대해 평균 불순도 감소로 계산한 값
+
+   <img src = "https://user-images.githubusercontent.com/83687942/172283175-049514ff-4249-41b2-99ed-e5b68216277b.png" width="230" height="400" ><img src = "https://user-images.githubusercontent.com/83687942/172287762-2a90e7fe-6d52-42de-b7af-a152d1369797.png" width="230" height="400"><img src = "https://user-images.githubusercontent.com/83687942/172287806-fc735ada-c7e8-444a-972e-4a1b1c7865ae.png" width="230" height="400" ><img src = "https://user-images.githubusercontent.com/83687942/172287852-42e13328-8ed4-4991-83ec-42ed5e58393d.png" width="230" height="400" >
 
    |특성중요도| Random Forest | XGB | LGBM | Gradient Boosting |
    |:--:|:--:|:--:|:--:|:--:|
@@ -121,18 +124,16 @@
    |9|ROE2|매출총이익률|부채비율|매출총이익|
    |10| 순자산|미수금|기타비유동자산|ROA2|
 
-+ 모델 간 특성중요도에서 차이를 보이나 공통적으로 병원 종류, 병상수, 매출총이익(매출총이익률, 변화율), 자산(순자산, 총자산), ROA, ROE, 미수금(단기/장기미수금)의 특성이 중요한 것으로 나타남
-+ [참고]
-
-   <img src = "https://user-images.githubusercontent.com/83687942/172283175-049514ff-4249-41b2-99ed-e5b68216277b.png" width="230" height="400" ><img src = "https://user-images.githubusercontent.com/83687942/172287762-2a90e7fe-6d52-42de-b7af-a152d1369797.png" width="230" height="400"><img src = "https://user-images.githubusercontent.com/83687942/172287806-fc735ada-c7e8-444a-972e-4a1b1c7865ae.png" width="230" height="400" ><img src = "https://user-images.githubusercontent.com/83687942/172287852-42e13328-8ed4-4991-83ec-42ed5e58393d.png" width="230" height="400" >
-
++ 모델 간 특성중요도에서 차이를 보이나 공통적으로 병원 종류, 병상수, 매출총이익(매출총이익률, 변화율), 자산(순자산, 총자산), ROA, ROE, 미수금(단기/장기미수금)의 특성이 중요한 것으로 나타남 
++ 이는 병원의 폐업에 영향을 주는 주요 요인으로 __병원의 규모와 매출총이익률, 자산, (총/순)자산 대비 당기순이익__변수를 고려할 수 있음을 의미함 
 
 
 #### 6-4. 특이점
-+ 하이퍼파라미터 튜닝을 통한 최적 모델로 학습하면 더 나은 결과를 보일것이라 생각했는데 성능면에서 기존(v1)보다 떨어진 모습을 보였고 결과적으로 최빈값으로 예측한 것보다 못한 성능을 나타냄
-+ 하지만 base 모델은 validation date에 대한 AUC score가 0.5인 것으로 보아 좋은 모델이라고는 할 수 없음
++ 하이퍼파라미터 튜닝을 통한 최적 모델로 학습하면 더 나은 결과를 보일것이라 생각했는데 성능면에서 기존(v1)보다 떨어진 모습을 보였고 결과적으로 최빈값으로 예측한 것보다 못한 성능을 나타냄. 하지만 base 모델은 validation date에 대한 AUC score가 0.5인 것으로 보아 좋은 모델이라고는 할 수 없음
 + test data의 label이 공개되지 않아 성능 향상을 위한 다양한 시도 및 지표 확인을 하지 못한 부분이 아쉬움
 + (try) 특성중요도 결과를 바탕으로 향후 특성수를 줄여서 다시 학습하는 방향을 시도해보고자 함   
+
+
 ----
 ### 7. 기존 분석의 한계점 보완사항
 
