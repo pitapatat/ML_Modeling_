@@ -77,22 +77,41 @@
    + _매출액('revenue1'), 판매비와 관리비('sga1'), 급여('salary1'), 재고자산('inventoryAsset1/2'), 기타 비유동자산('OnonCAsset1/2'), 부채총계('debt1'), 비유동부채('NCLiabilities1'),매출총이익('tot_profit1'), 영업이익('ope_profit1'), 부채비율('debt_ratio1'), 대표자의 변경('ownerChange')_
 
 #### 6-2. 모델 간 성능 비교
-+ validation data 검증 결과의 f1-score/정확도(accuracy)/AUC score 비교 
++ validation data 검증 결과
  
    |모델|f1-score|accuracy|AUC score(base)|AUC score(최적화)|
    |:--:|:--:|:--:|:--:|:--:|
-   |최빈값 예측|0.9718|0.9451|0.5| -|
+   |**최빈값 예측(base)**|**0.9718**|**0.9451**|**0.5**| -|
+   |Logit Regression|0.9529| 0.9121|0.7581|0.7953|
    |SVM|0.9405 |0.8901| 0.6698|0.6768|
-   |RandomForest|0.9660 | 0.9341|  0.8093|0.8605|
+   |Random Forest|0.9660 | 0.9341|  0.8093|0.8605|
+   |Gradient Boosting|0.9655|0.9341|0.6698|0.6628|
    |LGBM|0.9714 | 0.9451| 0.6814|0.7093|
    |XGB|0.9714 | 0.9451|0.6976|0.7547|
    
 
 + test data 검증 결과 
+
+   |모델|accuracy(public/private)|비고|
+   |:--:|:--:|:--:|
+   |**최빈값 예측(base)**|**0.8730 / 0.8125**|-|
+   |Logit Regression|0.7143 / 0.6719| -|
+   |SVM|0.8413 / 0.7813|-|
+   |Random Forest|0.8413 / 0.8125|-|
+   |Gradient Boosting|0.8730 / 0.8438|-|
+   |LGBM |0.8571 / 0.8281|-|
+   |XGB|0.8413 / 0.8125 |-|
+   |voting classifier| 0.8412 / 0.828125 |SVM + Random Forest + XGB + LGBM|
+   |voting classifier|  |Random Forest + LGBM|
 + 
 #### 6-3. 모델 간 특성중요도 비교 
 
 +
+<img src = "https://user-images.githubusercontent.com/83687942/172283175-049514ff-4249-41b2-99ed-e5b68216277b.png" width="250" height="400">
+<img src = "" width="250" height="400">
+<img src = "" width="250" height="400">
+<img src = "" width="250" height="400">
+
 
 #### 6-4. 특이점
 +  
