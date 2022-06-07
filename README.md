@@ -1,3 +1,3 @@
 
 ## 머신러닝 기법 활용 데이터 분석
-#### :bookmark:[병원 폐업 예측모델](https://github.com/pitapatat/ML_Modeling_/blob/main/business_closing/v2/README_v2.md)
+#### :bookmark:[병원 폐업 예측모델](https://github.com/pitapatat/ML_Modeling_/blob/main/business_closing/README.md)
