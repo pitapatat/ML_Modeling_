@@ -101,8 +101,9 @@
    |Gradient Boosting|0.8730 / 0.8438|-|
    |LGBM |0.8571 / 0.8281|-|
    |XGB|0.8413 / 0.8125 |-|
-   |voting classifier| 0.8412 / 0.828125 |SVM + Random Forest + XGB + LGBM|
-   |voting classifier|  |Random Forest + LGBM|
+   |voting classifier| 0.8412 / 0.8281 |SVM + Random Forest + XGB + LGBM|
+   |voting classifier| 0.8413 / 0.8281  |Random Forest + LGBM + XGB|
+   |voting classifier| 0.8413 / 0.8438 | GBM + XGB + LGBM |
 + 
 #### 6-3. 모델 간 특성중요도 비교 
 
