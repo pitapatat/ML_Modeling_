@@ -104,19 +104,32 @@
    |voting classifier| 0.8412 / 0.8281 |SVM + Random Forest + XGB + LGBM|
    |voting classifier| 0.8413 / 0.8281  |Random Forest + LGBM + XGB|
    |voting classifier| 0.8413 / 0.8438 | GBM + XGB + LGBM |
-+ 
+
+
 #### 6-3. 모델 간 특성중요도 비교 
 
-+
-<img src = "https://user-images.githubusercontent.com/83687942/172283175-049514ff-4249-41b2-99ed-e5b68216277b.png" width="250" height="400">
-<img src = "" width="250" height="400">
-<img src = "" width="250" height="400">
-<img src = "" width="250" height="400">
+   |특성중요도| Random Forest | XGB | LGBM | Gradient Boosting |
+   |:--:|:--:|:--:|:--:|:--:|
+   |1| 병원 종류 |병상수| ROE1|병원 종류|
+   |2| 병상수| 총자산|ROA2|병상수|
+   |3| 매출총이익률|ROA1|매출총이익 변화율|총자산|
+   |4| 총자산|순자산|부채비율|ROA1|
+   |5| ROE1|직원수 변동|총자산|순자산|
+   |6| 시군구|매출원가|대표자변경|매출총이익 변화율|
+   |7| 당기순이익|매출총이익|병상수|직원수 변동|
+   |8| 장기미수금| 매출총이익 변화율|병원 종류|미수금|
+   |9|ROE2|매출총이익률|부채비율|매출총이익|
+   |10| 순자산|미수금|기타비유동자산|ROA2|
+
++ 모델 간 특성중요도에서 차이를 보이나 공통적으로 병원 종류, 병상수, 매출총이익(매출총이익률, 변화율), 자산(순자산, 총자산), ROA, ROE, 미수금(단기/장기미수금)의 특성이 중요한 것으로 나타남
++ [참고]
+
+   <img src = "https://user-images.githubusercontent.com/83687942/172283175-049514ff-4249-41b2-99ed-e5b68216277b.png" width="230" height="400" ><img src = "https://user-images.githubusercontent.com/83687942/172287762-2a90e7fe-6d52-42de-b7af-a152d1369797.png" width="230" height="400"><img src = "https://user-images.githubusercontent.com/83687942/172287806-fc735ada-c7e8-444a-972e-4a1b1c7865ae.png" width="230" height="400" ><img src = "https://user-images.githubusercontent.com/83687942/172287852-42e13328-8ed4-4991-83ec-42ed5e58393d.png" width="230" height="400" >
+
 
 
 #### 6-4. 특이점
-+  
-
++ 하이퍼파라미터 튜닝을 통한 최적 모델로 학습하면 더 나은 결과를 보일것이라 생각했는데 성능 
 ----
 ### 7. 기존 분석의 한계점 보완사항
 
