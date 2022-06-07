@@ -1,5 +1,5 @@
 
-(https://github.com/pitapatat/ML_Modeling_/blob/main/business_closing/v2/%5BML%5D_%EB%B3%91%EC%9B%90_%ED%8F%90%EC%97%85_%EC%98%88%EC%B8%A1%EB%AA%A8%EB%8D%B8_v2_06_.ipynb)# [ML] 병원 폐업여부 예측 
+# [ML] 병원 폐업여부 예측 [:link:](https://github.com/pitapatat/ML_Modeling_/blob/main/business_closing/%5BML%5D_hospital_closing_prediction_v2.ipynb)
 **:rocket: library: pandas, seaborn, sklearn, imblearn(imbalanced-learn)**
 
 
