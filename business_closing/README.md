@@ -7,7 +7,7 @@
 ### 1. 배경 및 목적
 
 + 병원의 재무제표 및 소재지, 병상수, 직원수 등의 데이터 분석을 통해 "계속 경영여부" 예측  
-+ **(업데이트 - 22.06.05)** : 기존 데이터 분석([v1](https://github.com/pitapatat/ML_Modeling_/tree/main/business_closing))의 한계점 보완
++ **(업데이트 - 22.06.05)** : 기존 데이터 분석([v1](https://github.com/pitapatat/ML_Modeling_/blob/main/business_closing/v1/README_v1.md))의 한계점 보완
 ```
 + 결측치 대체 방법 변경
 + feature engineering 전/후 결과 비교
